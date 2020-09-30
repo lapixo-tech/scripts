@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#script para comprimir en archivos individuales los directorios
+#dentro del directorio de trabajo actual. 
+
+echo "Compressing directories..."
+sleep 2
+for i in *
+do
+   [ -d "$i" ] && zip -r "$i.zip" "$i"
+done
