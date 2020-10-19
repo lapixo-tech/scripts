@@ -1,0 +1,1 @@
+sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Documentos/ ~/nas/servito/documentos
