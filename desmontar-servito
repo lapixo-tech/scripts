@@ -1,0 +1,2 @@
+sudo umount -f -q ~/nas/servito/*
+

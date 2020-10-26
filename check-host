@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ping -c 1 $1 > /dev/null
+resultado=$?
+echo "respuesta ----> $resultado"
+if [ "$resultado" -gt 0 ]; then
+	echo "Host fuera Linea"
+else
+	echo "Host en Linea"
+fi
+
