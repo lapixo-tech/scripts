@@ -1,5 +1,24 @@
-sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/INGENIERIA ~/nas/ingenieria
-sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/COMERCIAL ~/nas/comercial
-sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/SOFTWARE ~/nas/software
-sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/PUBLICO ~/nas/publico
-sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/MINSEG ~/nas/minseg
+#!/bin/bash
+
+function montarNAS {
+
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/INGENIERIA ~/nas/ingenieria
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/COMERCIAL ~/nas/comercial
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/SOFTWARE ~/nas/software
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/PUBLICO ~/nas/publico
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/MINSEG ~/nas/minseg
+
+}
+
+ping -c 1 10.10.2.2 > /dev/null
+resultado=$?
+echo "respuesta ----> $resultado"
+if [ "$resultado" -gt 0 ]; then
+	echo "Host fuera Linea"
+else
+	echo "---------------------------"
+	echo "NAS en Linea"
+	echo "Montando recursos samba..."
+	echo "---------------------------"
+	montarNAS
+fi
