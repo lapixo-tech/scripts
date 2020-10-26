@@ -10,15 +10,16 @@ function montarSERVITO {
 
 }
 
-ping -c 1 10.10.2.2 > /dev/null
+ping -c 1 10.10.100.1 > /dev/null
 resultado=$?
 echo "respuesta ----> $resultado"
 if [ "$resultado" -gt 0 ]; then
-	echo "Host fuera Linea"
+	echo "SERVITO fuera Linea"
+	echo "--> el servidor se enciende automáticamente a las 8 AM"
 else
 	echo "---------------------------"
 	echo "SERVITO en Linea"
-	echo "Montando recursos samba..."
+	echo "Montando recurrsos samba..."
 	echo "---------------------------"
 	montarSERVITO
 fi
