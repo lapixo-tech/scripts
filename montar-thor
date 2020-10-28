@@ -1,14 +1,35 @@
 #!/bin/bash
 
-function montarNAS {
+#verficamos si existen los directiorios
 
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/INGENIERIA ~/nas/ingenieria
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/COMERCIAL ~/nas/comercial
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/SOFTWARE ~/nas/software
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/PUBLICO ~/nas/publico
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/MINSEG ~/nas/minseg
+echo "-------------------------------"
+echo "VERIFICAMOS SI CONTAMOS"
+echo "CON LOS DIRECTORIOS NECESARIOS"
+echo "-------------------------------"
 
-}
+
+MASTER="/nas/"
+COMPARTIDOS=("ingenieria" "comercial" "software" "publico" "minseg")
+MY_PATH=$HOME
+cantidad=${#COMPARTIDOS[@]}
+
+for smb in "${COMPARTIDOS[@]}";
+do
+
+	if [  -d "$MY_PATH$MASTER${smb}" ];then
+		echo "-------------------------------"
+		echo "directorio $MY_PATH/$MASTER${smb} existe"
+		echo "-------------------------------"
+	else
+		echo "-------------------------------"
+		echo "direcotrio $MY_PATH$MASTER${smb} no existe. Creando.."
+		echo "-------------------------------"
+		mkdir -p "$MY_PATH$MASTER${smb}"
+		echo ">> directorio creado <<"
+	fi
+done
+
+#verificamos si SIF se encuentra en linea
 
 ping -c 1 10.10.2.2 > /dev/null
 resultado=$?
@@ -16,9 +37,18 @@ echo "respuesta ----> $resultado"
 if [ "$resultado" -gt 0 ]; then
 	echo "Host fuera Linea"
 else
+	
 	echo "---------------------------"
-	echo "NAS en Linea"
+	echo "NAS bicon-SIF en Linea"
 	echo "Montando recursos samba..."
 	echo "---------------------------"
-	montarNAS
+	
+	#montamos los direcotorios (cambiar por algoritmo recursivo)
+
+        sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/INGENIERIA ~/nas/ingenieria
+        sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/COMERCIAL ~/nas/comercial
+        sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/SOFTWARE ~/nas/software
+        sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/PUBLICO ~/nas/publico
+        sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/MINSEG ~/nas/minseg
+
 fi
