@@ -11,7 +11,7 @@ echo "-------------------------------"
 SERVER="10.10.2.2" #SIF
 MASTER_DIR="/nas/" #MASTER DIR PARA EL PUNTO DE MONTAJE
 COMPARTIDOS=("ingenieria" "comercial" "software" "publico" "minseg")
-MY_PATH=$HOME #OBTENEMOS PATH A HOME DEL USUARIO EN CURSO. 
+MY_PATH=$HOME #OBTENEMOS PATH A HOME DEL USUARIO EN CURSO.
 cantidad=${#COMPARTIDOS[@]}
 
 for smb in "${COMPARTIDOS[@]}";
@@ -38,12 +38,12 @@ echo "respuesta ----> $resultado"
 if [ "$resultado" -gt 0 ]; then
 	echo "Host fuera Linea"
 else
-	
+
 	echo "---------------------------"
 	echo "NAS bicon-SIF en Linea"
 	echo "Montando recursos samba..."
 	echo "---------------------------"
-	
+
 	#montamos los direcotorios (cambiar por algoritmo recursivo)
 
         sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/INGENIERIA ~/nas/ingenieria
@@ -53,3 +53,10 @@ else
         sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/MINSEG ~/nas/minseg
 
 fi
+
+
+for smb in "${COMPARTIDOS[@]}";
+do
+				mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.2.2/INGENIERIA ~/nas/"${smb}"
+
+done
