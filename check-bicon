@@ -1,0 +1,21 @@
+#!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+SERVIDORES=("10.10.2.1-PVE:ODIN" "10.10.2.2-NAS:SIF" "10.10.2.5-PVE:BOR" "10.10.2.6-NAS:TOR" "10.10.2.5-PBX:3CX" "10.10.2.77-VM:URG_TEST")
+
+for servidor in "${SERVIDORES[@]}";
+do
+	pos=`echo ${servidor} | grep -aob '-' --color=never | \grep -oE '^[0-9]+'`	
+        ping -c 1 ${servidor:0:$pos} >> /dev/null
+        resultado=$?
+        if [ "$resultado" -gt 0 ]; then
+                echo -e "${servidor}\t${RED}[DOWN]${NC}"
+        else
+                echo -e "${servidor}\t${GREEN}[ OK ]${NC}"
+        fi
+
+done    
+
+

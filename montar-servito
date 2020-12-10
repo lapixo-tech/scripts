@@ -6,6 +6,7 @@ function montarSERVITO {
 	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Downloads/ ~/nas/servito/downloads
 	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Movies/ ~/nas/servito/movies
 	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Series/ ~/nas/servito/series
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Programas/ ~/nas/servito/programas
 
 
 }
