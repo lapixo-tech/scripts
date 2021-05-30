@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#LAPIXO-TECH: Script para reinicial la conexión bluetooth en la notebook que a veces queda medio taraluta. 
+
+sudo hciconfig hci0 udown
+sudo hciconfig hci0 up
+
+#LAPIXO: finalmente mostramos el estado de la conexión para verificar que se encuentre operativa. 
+
+hciconfig -a hci0
