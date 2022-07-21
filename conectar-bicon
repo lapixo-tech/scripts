@@ -1,0 +1,61 @@
+#!/bin/bash
+
+function montarNAS {
+
+	#sudo mount -t nfs 10.10.2.2://mnt/DATA_RED/CAPECOM/CLIENTES /mnt/capecom/cli
+	#sudo mount -t nfs 10.10.2.2://mnt/DATA_RED/INGENIERIA /mnt/capecom/ing
+	#sudo mount -t nfs 10.10.2.2://mnt/DATA_RED/SOFTWARE /mnt/capecom/soft
+	#sudo mount -t nfs 10.10.2.2://mnt/DATA_RED/MINSEG /mnt/capecom/minseg
+	#sudo mount -t nfs 10.10.2.2://mnt/DATA_RED/COMERCIALSF /mnt/capecom/comsf
+	#sudo mount -t nfs 10.10.2.2://mnt/DATA_RED/CAPECOM/COMERCIALIZACION /mnt/capecom/comer
+	#sudo mount -t nfs 10.10.2.2://mnt/DATA_RED/ISO /mnt/capecom/iso
+	
+	
+	sudo mount -t cifs -o rw,nosuid,relatime,uid=1000,gid=1000,file_mode=0770,dir_mode=0770,credentials=/home/lapi/.smbcredentials //10.10.2.2/INGENIERIA /mnt/capecom/ing
+	sudo mount -t cifs -o rw,nosuid,relatime,uid=1000,gid=1000,file_mode=0770,dir_mode=0770,credentials=/home/lapi/.smbcredentials //10.10.2.2/CAPECOM_CLIENTES /mnt/capecom/cli
+	sudo mount -t cifs -o rw,nosuid,relatime,uid=1000,gid=1000,file_mode=0770,dir_mode=0770,credentials=/home/lapi/.smbcredentials //10.10.2.2/SOFTWARE /mnt/capecom/soft
+	sudo mount -t cifs -o rw,nosuid,relatime,uid=1000,gid=1000,file_mode=0770,dir_mode=0770,credentials=/home/lapi/.smbcredentials //10.10.2.2/PUBLICO /mnt/capecom/publico
+	sudo mount -t cifs -o rw,nosuid,relatime,uid=1000,gid=1000,file_mode=0770,dir_mode=0770,credentials=/home/lapi/.smbcredentials //10.10.2.2/MINSEG /mnt/capecom/minseg
+	sudo mount -t cifs -o rw,nosuid,relatime,uid=1000,gid=1000,file_mode=0770,dir_mode=0770,credentials=/home/lapi/.smbcredentials //10.10.2.2/ISOS /mnt/capecom/iso
+	sudo mount -t cifs -o rw,nosuid,relatime,uid=1000,gid=1000,file_mode=0770,dir_mode=0770,credentials=/home/lapi/.smbcredentials //10.10.2.2/COMERCIALSF /mnt/capecom/comsf
+	sudo mount -t cifs -o rw,nosuid,relatime,uid=1000,gid=1000,file_mode=0770,dir_mode=0770,credentials=/home/lapi/.smbcredentials //10.10.2.2/COMERCIALIZACION /mnt/capecom/comer
+	
+}
+
+function checkNAS {
+
+	
+	ping -c 1 10.10.2.2 > /dev/null
+	resultado=$?
+
+	#linea para validar output de ping.
+	#echo "respuesta ----> $resultado"
+	
+	if [ "$resultado" -gt 0 ]; then
+	
+		servito=0
+	else
+		servito=1
+
+	fi
+}
+
+#echo "respuesta ----> $resultado"
+servito=4
+echo "Buscando Server SIF (10.10.2.2)"
+checkNAS
+if [ $servito -eq 1 ]; then
+	echo "NAS ON LINE"
+	montarNAS
+
+else
+	echo "NAS OFF LINE"
+	echo "--------+-------+------+------"
+	read -p " > Conectar VPN? < " yn
+	case $yn in
+		
+		[yY] ) nmcli conn up alatiniEXPRESS;
+			 montarNAS;;
+		[nN] ) exit ;
+	esac
+fi
