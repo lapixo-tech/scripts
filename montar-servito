@@ -2,16 +2,17 @@
 
 function montarSERVITO {
 
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Documentos/ ~/nas/servito/documentos
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Downloads/ ~/nas/servito/downloads
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Movies/ ~/nas/servito/movies
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Series/ ~/nas/servito/series
-	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //10.10.100.1/Programas/ ~/nas/servito/programas
-
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //192.168.10.2/Documentos/ ~/nas/servito/documentos
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //192.168.10.2/Downloads/ ~/nas/servito/downloads
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //192.168.10.2/Movies/ ~/nas/servito/movies
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //192.168.10.2/Series/ ~/nas/servito/series
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //192.168.10.2/Programas/ ~/nas/servito/programas
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //192.168.10.2/backup/ ~/nas/servito/backup
+	sudo mount -t cifs -o rw,credentials=/home/lapi/.smbcredentials,noperm,uid=1008,gid=1008 //192.168.10.2/videos/ ~/nas/servito/videos
 
 }
 
-ping -c 1 10.10.100.1 > /dev/null
+ping -c 1 '192.168.10.2' > /dev/null
 resultado=$?
 echo "respuesta ----> $resultado"
 if [ "$resultado" -gt 0 ]; then
